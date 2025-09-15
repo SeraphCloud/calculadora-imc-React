@@ -1,10 +1,18 @@
 import {useState} from "react";
 import './App.css'
 
+const tabelaIMC = [
+    {faixa: 'Abaixo de 18.5', classificacao: 'Abaixo do peso'},
+    {faixa: 'Entre 18.5 e 24.9', classificacao: 'Peso normal'},
+    {faixa: 'Entre 25 e 29.9', classificacao: 'Sobrepeso'},
+    {faixa: 'Acima de 30', classificacao: 'Obesidade'},
+];
+
 function App() {
     const [altura, setAltura] = useState('');
     const [peso, setPeso] = useState('');
     const [imc, setImc] = useState(null);
+    const [classificacao, setClassificacao] = useState('');
 
     const calcularImc = () => {
         if (!altura || !peso) {
@@ -26,6 +34,16 @@ function App() {
         const resultado = pesoNum / (alturaFinal * alturaFinal);
 
         setImc(resultado.toFixed(2));
+
+        if (resultado < 18.5) {
+            setClassificacao('Abaixo do peso');
+        } else if (resultado >= 18.5 && resultado <= 24.9) {
+            setClassificacao('Peso normal')
+        } else if (resultado >= 25 && resultado <= 29.9) {
+            setClassificacao('Acima do peso')
+        } else {
+            setClassificacao('Obesidade')
+        }
     }
 
     return (
@@ -38,8 +56,16 @@ function App() {
                    onChange={(e) => setPeso(e.target.value)}/>
             <button onClick={calcularImc}>Calcular</button>
             {imc && <p>{imc}</p>}
+            <div className="tabela-imc">
+                {tabelaIMC.map(({faixa, classificacao: itemClassificacao}) => (
+                    <div key={itemClassificacao} className={classificacao === itemClassificacao ? 'destacado' : ''}>
+                        <p>{faixa}: {classificacao}</p>
+                    </div>
+                ))}
+            </div>
         </>
     )
 }
+
 
 export default App
