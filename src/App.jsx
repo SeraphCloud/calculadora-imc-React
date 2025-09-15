@@ -59,7 +59,7 @@ function App() {
             <div className="tabela-imc">
                 {tabelaIMC.map(({faixa, classificacao: itemClassificacao}) => (
                     <div key={itemClassificacao} className={classificacao === itemClassificacao ? 'destacado' : ''}>
-                        <p>{faixa}: {classificacao}</p>
+                        <p>{faixa}: {itemClassificacao}</p>
                     </div>
                 ))}
             </div>
